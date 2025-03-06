@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=ISHAN;Database=KTMPos;User Id=sa;Password=12345;TrustServerCertificate=True;"
+  }
+}
