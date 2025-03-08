@@ -5,10 +5,10 @@ namespace KTMPos.BAL.Services.CategoryServices
 {
     public interface ICategoryService
     {
-        Task SaveAsync(CategoryInsertDto category);
-        Task DeleteAsync(int id);
-        Task<List<CategoryReadDto>> GetAllAsync();
-        Task UpdateAsync(CategoryUpdateDto category);
+        Task<OutputDto> SaveAsync(CategoryInsertDto category);
+        Task<OutputDto> DeleteAsync(int id);
+        Task<DataOutputDto<CategoryReadDto>> GetAllAsync();
+        Task<OutputDto> UpdateAsync(CategoryUpdateDto category);
 
     }
 }

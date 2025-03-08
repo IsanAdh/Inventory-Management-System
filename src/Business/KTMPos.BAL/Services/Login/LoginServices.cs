@@ -1,5 +1,10 @@
 ﻿
+using KTMPos.Common.Dto.Logins;
+using KTMPos.Common.Dto;
 using KTMPos.DAL.Repository.LoginRepository;
+using KTMPos.Common.Utilities;
+using KTMPos.Common.Enums;
+using KTMPos.Common.Constants;
 
 namespace KTMPos.BAL.Services.Login
 {
@@ -10,10 +15,27 @@ namespace KTMPos.BAL.Services.Login
         {
             _loginRepository = loginRepository;
         }
-        public async Task<int> LoginAsync(string username, string password)
+        public async Task<DataOutputDto<LoginReadDto>> LoginAsync(string username, string password)
         {
-            int userId= await _loginRepository.LoginAsync(username, password);
-            return userId;  
+            try
+            {
+                var userId = await _loginRepository.LoginAsync(username, password);
+                var logins = new List<LoginReadDto>
+            {
+                new LoginReadDto
+                {
+                    Id=userId,
+                }
+            };
+                return OutputDtoConverter.SetDataOutputDto(Status.Success, "Login Sucessful", logins);
+            }
+            catch (Exception ex)
+            {
+
+                return OutputDtoConverter.SetDataOutputDto(Status.Success, Message.Success, new List<LoginReadDto>(), new List<string> { ex.Message });
+
+            }
+
         }
     }
 }

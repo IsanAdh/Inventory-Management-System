@@ -1,6 +1,9 @@
 ﻿using KTMPos.BAL.Services.CategoryServices;
 using KTMPos.Common.Constants;
 using KTMPos.Common.Dto;
+using KTMPos.Common.Enums;
+using KTMPos.Desktop.Utilities;
+using message = KTMPos.Common.Constants.Message;
 
 namespace KTMPos.Desktop.Forms.ChildForms.InventoryModule
 {
@@ -59,16 +62,25 @@ namespace KTMPos.Desktop.Forms.ChildForms.InventoryModule
                     Name = name,
                     CreatedBy = _userId,
                 };
-                await _categoryService.SaveAsync(categoryInsert);
-                await OnSuccessAsync("saved");
+               var result=await _categoryService.SaveAsync(categoryInsert);
+                await ProcessAsync(result);
             }
         }
 
-        private async Task OnSuccessAsync(string label)
+        private async Task ProcessAsync(OutputDto result)
         {
-            await LoadAllCategoriesAsync();
-            MessageBox.Show($"Category {label} Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            ResetControl();
+            if (result.Status==Status.Success)
+            {
+                await LoadAllCategoriesAsync();
+                DialogMessage.ShowSuccessAlert(result.Message, message.Success);
+                //MessageBox.Show(result.Message, message.Success, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ResetControl(); 
+            }
+            else
+            {
+                DialogMessage.ShowFailureAlert(result.Message, message.Failed);
+                //MessageBox.Show(result.Message,message.Failed, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async Task LoadCategoryGridAsync()
@@ -138,7 +150,8 @@ namespace KTMPos.Desktop.Forms.ChildForms.InventoryModule
 
         private async Task LoadAllCategoriesAsync()
         {
-            dvgCategory.DataSource = await _categoryService.GetAllAsync();
+            var result = await _categoryService.GetAllAsync();
+            dvgCategory.DataSource = result.Data;
             UpdateSerialNumber();
         }
 
@@ -166,13 +179,13 @@ namespace KTMPos.Desktop.Forms.ChildForms.InventoryModule
                         CreatedBy=_userId,
 
                     };
-                    await _categoryService.UpdateAsync(categoryUpdate);
-                    await OnSuccessAsync("updated");
+                    var result=await _categoryService.UpdateAsync(categoryUpdate);
+                    await ProcessAsync(result);
                 }
             }
             else
             {
-                MessageBox.Show("No category selected to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No category selected to update.", "Error");
             }
             
         }
@@ -181,12 +194,12 @@ namespace KTMPos.Desktop.Forms.ChildForms.InventoryModule
         {
             if (_categoryId > 0)
             {
-                await _categoryService.DeleteAsync(_categoryId);
-                await OnSuccessAsync("deleted");
+                var result = await _categoryService.DeleteAsync(_categoryId);
+                await ProcessAsync(result);
             }
             else
             {
-                MessageBox.Show("No category selected to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No category selected to delete.", "Error");
             }
         }
 

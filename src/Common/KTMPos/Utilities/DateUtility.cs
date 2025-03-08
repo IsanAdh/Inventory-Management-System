@@ -1,6 +1,6 @@
 ﻿namespace KTMPos.Common.Utilities
 {
-    public static  class DateUtility
+    public static class DateUtility
     {
         public static string FormatDate(this DateTime dateTime)
         {

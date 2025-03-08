@@ -1,4 +1,6 @@
 ﻿using KTMPos.BAL.Services.Login;
+using KTMPos.Common.Enums;
+using KTMPos.Desktop.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KTMPos.Desktop.Forms
@@ -37,30 +39,22 @@ namespace KTMPos.Desktop.Forms
             string userName = txtUserName.Text.Trim();
             string password = txtPassword.Text.Trim();
 
-            if (String.IsNullOrEmpty(userName) || String.IsNullOrEmpty(password))
+            var result = await _loginServices.LoginAsync(userName, password);
+            if(result.Status==Status.Success)
             {
-                MessageBox.Show("Username or password is missing.", "Invalid Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                int userId = result.Data.Select(x => x.Id).FirstOrDefault();
+                if (userId > 0)
+                {
+                    var ktmForm = _serviceProvider.GetRequiredService<KtmPOS>();
+                    ktmForm.SetUserId(userId);
+                    ktmForm.Show();
+                    this.Hide();
+                } 
             }
-            int userId = await _loginServices.LoginAsync(userName, password);
-            if (userId>0)
+            else
             {
-                var ktmForm = _serviceProvider.GetRequiredService<KtmPOS>();
-                ktmForm.SetUserId(userId);
-                ktmForm.Show();
-                this.Hide();
-                
+                DialogMessage.ShowFailureAlert("Invalid Login","Invalid Username or Password");
             }
-
-
-
-            txtUserName.Clear();
-            txtPassword.Clear();
-            this.Hide();
-
-
-           // MessageBox.Show("Invalid username or password.", "Invalid Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
