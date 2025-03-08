@@ -1,4 +1,5 @@
 ﻿using KTMPos.BAL.Services.CategoryServices;
+using KTMPos.BAL.Services.Login;
 using KTMPos.DAL.Repository.CategoryRepository;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,6 +15,7 @@ namespace KTMPos.BAL
         public static void AddBusinessLayer(this IServiceCollection services)
         {
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ILoginServices, LoginServices>();
         }
     }
 }

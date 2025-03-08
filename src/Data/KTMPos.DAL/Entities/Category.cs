@@ -1,8 +1,12 @@
-﻿namespace KTMPos.DAL.Entities
+﻿using KTMPos.DAL.Entities.Common;
+
+namespace KTMPos.DAL.Entities
 {
-    public class Category
+    public  class Category:BaseEntity
     {
-        public int Id { get; set; }
         public string Name{ get; set; }
+        public Login CreatedUser { get; set; }
+        public Login ModifiedUser { get; set; } 
+        
     }
 }

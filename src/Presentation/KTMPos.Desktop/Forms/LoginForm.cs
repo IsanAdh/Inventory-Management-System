@@ -6,9 +6,11 @@ namespace KTMPos.Desktop.Forms
     public partial class LoginForm : Form
     {
         private readonly IServiceProvider _serviceProvider;
-        public LoginForm(IServiceProvider serviceProvider)
+        private readonly ILoginServices _loginServices;
+        public LoginForm(IServiceProvider serviceProvider,ILoginServices loginServices)
         {
             _serviceProvider = serviceProvider;
+            _loginServices = loginServices;
             InitializeComponent();
             InitializeFormComponents();
         }
@@ -40,9 +42,15 @@ namespace KTMPos.Desktop.Forms
                 MessageBox.Show("Username or password is missing.", "Invalid Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var ktmForm = _serviceProvider.GetRequiredService<KtmPOS>();
-            ktmForm.Show();
-            this.Hide();
+            int userId = await _loginServices.LoginAsync(userName, password);
+            if (userId>0)
+            {
+                var ktmForm = _serviceProvider.GetRequiredService<KtmPOS>();
+                ktmForm.SetUserId(userId);
+                ktmForm.Show();
+                this.Hide();
+                
+            }
 
 
 

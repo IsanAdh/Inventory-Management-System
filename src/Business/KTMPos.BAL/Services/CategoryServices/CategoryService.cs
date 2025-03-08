@@ -1,6 +1,7 @@
 ﻿using KTMPos.Common.Dto;
 using KTMPos.DAL.Repository.CategoryRepository;
 using KTMPos.DAL.Entities;
+using KTMPos.Common.Utilities;
 namespace KTMPos.BAL.Services.CategoryServices
 {
     internal class CategoryService : ICategoryService      
@@ -23,22 +24,34 @@ namespace KTMPos.BAL.Services.CategoryServices
                     {
                         Id = x.Id,
                         Name = x.Name,
+                        CreatedBy= x.CreatedUser.UserName,
+                        CreatedDate=x.CreatedDate.Value.FormatDate(),
+                        LastModifiedBy=x.ModifiedUser?.UserName,
+                        LastModifiedDate=x.LastModifiedDate,
                     }).ToList();
         }
 
-        public async Task SaveAsync(CategoryWriteDto request)
+        public async Task SaveAsync(CategoryInsertDto request)
         {
             var category = new Category
             {
                 //Id = request.Id, save garna Id ko need hudaina Database le aafai Id lai manage garcha
                 Name = request.Name,
+                CreatedBy = request.CreatedBy,
             };
             await _categoryRepository.SaveAsync(category);
         }
 
-        public async Task UpdateAsync(CategoryWriteDto category)
+        public async Task UpdateAsync(CategoryUpdateDto updateDto)
         {
-            await _categoryRepository.UpdateAsync(category.Id,category.Name);
+            var category = new Category
+            {
+                Id = updateDto.Id,
+                Name = updateDto.Name,
+                LastModifiedBy = updateDto.CreatedBy,
+                LastModifiedDate = DateTime.Now,
+            };
+            await _categoryRepository.UpdateAsync(category);
         }
     }
 }

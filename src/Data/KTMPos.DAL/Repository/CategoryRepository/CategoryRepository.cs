@@ -27,7 +27,12 @@ namespace KTMPos.DAL.Repository.CategoryRepository
 
         public async Task<List<Category>> GetAllAsync()
         {
-            var categories = await _context.Categories.AsNoTracking().OrderBy(x=>x.Id).ToListAsync();
+            var categories = await _context.Categories
+                                           .AsNoTracking()
+                                           .OrderByDescending(x=>x.Id)
+                                           .Include(x=>x.CreatedUser)
+                                           .Include(x=> x.ModifiedUser)
+                                           .ToListAsync();
             return categories;
         }
 
@@ -43,10 +48,12 @@ namespace KTMPos.DAL.Repository.CategoryRepository
             await _context.SaveChangesAsync();  
         }
 
-        public async Task UpdateAsync(int id,string name)
+        public async Task UpdateAsync(Category category)
         {
-            var category = await GetByIdAsync(id);
-            category.Name = name;
+            var existingCategory = await GetByIdAsync(category.Id);
+            existingCategory.Name = category.Name;
+            existingCategory.LastModifiedBy = category.LastModifiedBy;
+            existingCategory.LastModifiedDate = category.LastModifiedDate;
             await _context.SaveChangesAsync();
         }
     }

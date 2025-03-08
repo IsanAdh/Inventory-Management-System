@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace KTMPos.Common.Dto
 {
-    public class CategoryWriteDto
+    public class CategoryInsertDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }    
+        public int CreatedBy { get; set; }
     }
 }

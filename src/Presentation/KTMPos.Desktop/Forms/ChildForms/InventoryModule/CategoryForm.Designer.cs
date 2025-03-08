@@ -34,12 +34,12 @@
             btnSave = new Button();
             btnExit = new Button();
             dvgCategory = new DataGridView();
-            btnUpdate = new Button();
             txtSearch = new TextBox();
             lblSearch = new Label();
-            btnDelete = new Button();
             btnCancel = new Button();
             lblCategoryNameError = new Label();
+            btnUpdate = new Button();
+            btnDelete = new Button();
             ((System.ComponentModel.ISupportInitialize)dvgCategory).BeginInit();
             SuspendLayout();
             // 
@@ -47,7 +47,7 @@
             // 
             lblCategoryHeader.Anchor = AnchorStyles.Top;
             lblCategoryHeader.AutoSize = true;
-            lblCategoryHeader.Location = new Point(413, 7);
+            lblCategoryHeader.Location = new Point(405, 7);
             lblCategoryHeader.Name = "lblCategoryHeader";
             lblCategoryHeader.Size = new Size(129, 15);
             lblCategoryHeader.TabIndex = 0;
@@ -84,7 +84,7 @@
             // btnExit
             // 
             btnExit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnExit.Location = new Point(902, 4);
+            btnExit.Location = new Point(885, 4);
             btnExit.Margin = new Padding(3, 2, 3, 2);
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(106, 29);
@@ -100,20 +100,13 @@
             dvgCategory.Margin = new Padding(3, 2, 3, 2);
             dvgCategory.Name = "dvgCategory";
             dvgCategory.RowHeadersWidth = 51;
-            dvgCategory.Size = new Size(965, 229);
+            dvgCategory.Size = new Size(802, 229);
             dvgCategory.TabIndex = 5;
-            // 
-            // btnUpdate
-            // 
-            btnUpdate.Location = new Point(0, 0);
-            btnUpdate.Margin = new Padding(3, 2, 3, 2);
-            btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(66, 17);
-            btnUpdate.TabIndex = 10;
+            dvgCategory.CellDoubleClick += dvgCategory_CellDoubleClick;
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(861, 112);
+            txtSearch.Location = new Point(699, 110);
             txtSearch.Margin = new Padding(3, 2, 3, 2);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(132, 23);
@@ -122,19 +115,11 @@
             // lblSearch
             // 
             lblSearch.AutoSize = true;
-            lblSearch.Location = new Point(809, 115);
+            lblSearch.Location = new Point(647, 113);
             lblSearch.Name = "lblSearch";
             lblSearch.Size = new Size(45, 15);
             lblSearch.TabIndex = 1;
             lblSearch.Text = "Search:";
-            // 
-            // btnDelete
-            // 
-            btnDelete.Location = new Point(0, 0);
-            btnDelete.Margin = new Padding(3, 2, 3, 2);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(66, 17);
-            btnDelete.TabIndex = 9;
             // 
             // btnCancel
             // 
@@ -157,18 +142,38 @@
             lblCategoryNameError.TabIndex = 11;
             lblCategoryNameError.Text = "Name is required";
             // 
+            // btnUpdate
+            // 
+            btnUpdate.Location = new Point(141, 76);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(96, 29);
+            btnUpdate.TabIndex = 12;
+            btnUpdate.Text = "Update";
+            btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.Click += btnUpdate_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Location = new Point(255, 76);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(96, 29);
+            btnDelete.TabIndex = 12;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
             // CategoryForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1015, 369);
+            ClientSize = new Size(998, 485);
+            Controls.Add(btnDelete);
+            Controls.Add(btnUpdate);
             Controls.Add(lblCategoryNameError);
             Controls.Add(btnCancel);
-            Controls.Add(btnDelete);
             Controls.Add(txtSearch);
             Controls.Add(dvgCategory);
             Controls.Add(btnExit);
-            Controls.Add(btnUpdate);
             Controls.Add(btnSave);
             Controls.Add(txtCategoryName);
             Controls.Add(lblSearch);
@@ -191,11 +196,13 @@
         private Button btnSave;
         private Button btnExit;
         private DataGridView dvgCategory;
-        private Button btnUpdate;
+
         private TextBox txtSearch;
         private Label lblSearch;
-        private Button btnDelete;
+
         private Button btnCancel;
         private Label lblCategoryNameError;
+        private Button btnUpdate;
+        private Button btnDelete;
     }
 }

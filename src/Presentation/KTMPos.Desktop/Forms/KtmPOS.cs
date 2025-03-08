@@ -1,18 +1,25 @@
 ﻿using KTMPos.Desktop.Forms.ChildForms.InventoryModule;
 using Microsoft.Extensions.DependencyInjection;
 using System.DirectoryServices;
+using System.Runtime.CompilerServices;
 
 namespace KTMPos.Desktop.Forms
 {
     public partial class KtmPOS : Form
     {
         private readonly IServiceProvider _serviceProvider;
+        private int _userId = 0;
         public KtmPOS(IServiceProvider serviceProvider)
         {
             InitializeComponent();
             WindowState = FormWindowState.Maximized;
             _serviceProvider = serviceProvider;
         }
+        public void SetUserId(int userId)
+        {
+            _userId = userId;
+        }
+        public int GetUserId { get { return _userId; } }
 
         private void exitToolStripMenuItem_Clicl(object sender, EventArgs e)
         {

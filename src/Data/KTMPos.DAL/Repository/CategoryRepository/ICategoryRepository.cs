@@ -8,7 +8,7 @@ namespace KTMPos.DAL.Repository.CategoryRepository
         Task SaveAsync(Category category);
         Task DeleteAsync(int id);
         Task<List<Category>> GetAllAsync();
-        Task UpdateAsync(int id,string name);
+        Task UpdateAsync(Category category);
         Task<Category> GetByIdAsync(int id);   
 
     }
